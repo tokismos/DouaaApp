@@ -1,0 +1,47 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @react-navigation/bottom-tabs
+
+PATH: 
+  C:\Python39\Scripts\;C:\Python39\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;D:\Program Files\Git\cmd;C:\Program Files\OpenJDK\openjdk-8u292-b10\bin;%NVM_HOME%;%NVM_SYMLINK%;C:\Users\tokis\AppData\Local\Microsoft\WindowsApps;C:\Users\tokis\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\tokis\AppData\Local\Android\Sdk\platform-tools;C:\Users\tokis\AppData\Roaming\nvm;C:\Program Files\nodejs
+
+Yarn version: 
+  1.22.10
+
+Node version: 
+  14.16.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, copyfile 'C:\Users\tokis\AppData\Local\Yarn\Cache\v6\npm-react-native-0.63.2-a3d42e4135c891cf15a335cf69922e96507d6b8d\node_modules\react-native\Libraries\LogBox\UI\LogBoxImages\close.png' -> 'C:\Users\tokis\Desktop\rn-Projects\DouaaApp\node_modules\react-native\Libraries\LogBox\UI\LogBoxImages\close.png'
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "~41.0.1",
+      "expo-status-bar": "~1.0.4",
+      "react": "16.13.1",
+      "react-dom": "16.13.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
+      "react-native-web": "~0.13.12"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.9.0"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
