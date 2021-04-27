@@ -2,17 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
-import * as Sharing from "expo-sharing";
-import img from "../components/img";
-const DATA = [
-  { id: "1", value: "aaaaaaaaaaaa" },
-  { id: "2", value: "bbbbbbbbbbbb" },
-  { id: "3", value: "cccccccccc" },
-  { id: "4", value: "ddddddddddd" },
-  { id: "5", value: "eeeeeeeeeeeee" },
-  { id: "6", value: "ffffffffffff" },
-  { id: "7", value: "ggggggggggg" },
-];
+import Islam from "../assets/islam.svg";
+import { DATA } from "../data/data";
 
 const db = SQLite.openDatabase("db.db");
 const Main = () => {
@@ -65,20 +56,30 @@ const Main = () => {
         alignItems: "center",
       }}
     >
+      <View style={{}}>
+        <Islam height={240} width={440} />
+      </View>
       <View
         style={{
           backgroundColor: "#FFD700",
           alignSelf: "stretch",
           height: 230,
+          borderTopWidth: 0,
+          borderBottomWidth: 0,
           borderRadius: 20,
-          margin: 10,
-          borderWidth: 5,
+          borderWidth: 3,
           borderColor: "white",
           justifyContent: "center",
           alignItems: "center",
+          marginHorizontal: 5,
+          padding: 5,
         }}
       >
-        <Text>{data.value}</Text>
+        <Text
+          style={{ textAlign: "center", fontFamily: "ArabFont", fontSize: 22 }}
+        >
+          {data.value}
+        </Text>
         <View style={{ flexDirection: "row", marginTop: 10 }}>
           <View style={{ marginHorizontal: 10 }}>
             <Button title="press" onPress={click} />
