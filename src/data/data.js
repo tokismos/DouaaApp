@@ -21,7 +21,8 @@ export const DATA = [
   },
   {
     id: "5",
-    value: "بالعيد بهنييك وفي قلبي بخليك وفي عيني بحميك عيد مبارك سعيد",
+    value:
+      "بالعيد بهنييك وفي قلبي بخليك وفي عيني بحميك bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbعيد مبارك سعيد",
   },
   {
     id: "6",

@@ -8,6 +8,7 @@ import { useFonts } from "expo-font";
 export default function App() {
   const [loaded] = useFonts({
     ArabFont: require("./src/assets/fonts/arabFont.ttf"),
+    ArabFont2: require("./src/assets/fonts/arabFont2.ttf"),
   });
 
   if (!loaded) {
@@ -19,6 +20,7 @@ export default function App() {
       <DataProvider>
         <View style={{ flex: 1 }}>
           <Navigator />
+          <StatusBar translucent />
         </View>
       </DataProvider>
     </>

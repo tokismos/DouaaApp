@@ -63,7 +63,6 @@ const syncFavorites = (dispatch) => () => {
   db.transaction(
     (tx) => {
       tx.executeSql("select * from douaae", [], (_, resultSet) => {
-        console.log("THIS IS reeesult:", resultSet.rows._array);
         dispatch({ type: "SYNC_FAVORITES", payload: resultSet.rows._array });
       });
     },
