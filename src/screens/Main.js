@@ -1,5 +1,14 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ImageBackground,
+  Image,
+} from "react-native";
+
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
 import { LinearGradient } from "expo-linear-gradient";
@@ -78,68 +87,90 @@ const Main = () => {
   };
 
   return (
-    <LinearGradient
-      colors={["#4c669f", "black"]}
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Islam height={240} width={440} />
-      <View style={styles.container}>
-        <Text style={[styles.text]}>{DATA[douaaIndex].value}</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-          }}
-        >
-          <View style={styles.botViewContainer}>
-            <TouchableOpacity onPress={previousDouaa}>
-              <Left height={40} width={40} fill="#082c6c" />
-            </TouchableOpacity>
-
-            <View
-              style={{
-                height: 60,
-                width: 60,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity onPress={isFavorite ? deleteFav : addFav}>
-                <LottieView
-                  ref={animation}
-                  style={{
-                    width: 150,
-                    height: 150,
-                  }}
-                  speed={1.5}
-                  source={require("../assets/lottie/LikeButton.json")}
-                  autoPlay={false}
-                  loop={false}
-                />
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity onPress={nextDouaa}>
-              <Right height={40} width={40} fill="#082c6c" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+    <>
       <View
         style={{
-          backgroundColor: "white",
-          height: 50,
-          width: 60,
-          borderBottomLeftRadius: 10,
-          borderBottomRightRadius: 10,
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }}
+      >
+        <Image
+          source={require("../assets/sky2.jpg")}
+          style={{ height: "70%", width: "100%" }}
+        />
+      </View>
+
+      <LinearGradient
+        colors={["rgba(0,0,0,.3)", "#082c6c"]}
+        style={{
+          flex: 1,
           justifyContent: "center",
           alignItems: "center",
         }}
-      ></View>
-    </LinearGradient>
+        start={[0.1, 0]}
+        end={[0.5, 0.8]}
+      >
+        <Islam height={240} width={440} />
+        <View style={styles.container}>
+          <Text style={[styles.text]}>{DATA[douaaIndex].value}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              marginTop: 10,
+            }}
+          >
+            <View style={styles.botViewContainer}>
+              <TouchableOpacity
+                onPress={previousDouaa}
+                disabled={douaaIndex == 0}
+              >
+                <Left
+                  height={40}
+                  width={40}
+                  fill={douaaIndex == 0 ? "gray" : "#082c6c"}
+                />
+              </TouchableOpacity>
+
+              <View
+                style={{
+                  height: 60,
+                  width: 60,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={isFavorite ? deleteFav : addFav}
+                  disabled={douaaIndex == 0}
+                >
+                  <LottieView
+                    ref={animation}
+                    style={{
+                      width: 150,
+                      height: 150,
+                    }}
+                    speed={1.5}
+                    source={require("../assets/lottie/LikeButton.json")}
+                    autoPlay={false}
+                    loop={false}
+                  />
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity onPress={nextDouaa}>
+                <Right
+                  height={40}
+                  width={40}
+                  fill={douaaIndex == DATA.length - 1 ? "gray" : "#082c6c"}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </LinearGradient>
+    </>
   );
 };
 
