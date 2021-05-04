@@ -8,7 +8,7 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
-
+import Test from "../components/test";
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
 import { LinearGradient } from "expo-linear-gradient";
@@ -20,14 +20,14 @@ import Left from "../assets/left.svg";
 import Right from "../assets/right.svg";
 const db = SQLite.openDatabase("db.db");
 let from = false;
-const Main = () => {
+const Main = ({ navigation, route }) => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
     dataContext
   );
   const [douaaIndex, setDouaaIndex] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const animation = useRef(null);
-
+  // Begin---> create the DB and fetch the data from it to show it in the favourite screen
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -39,7 +39,9 @@ const Main = () => {
     });
     console.log(state);
     syncFavorites();
+    console.log("this isss props:", route);
   }, []);
+  // END
 
   useEffect(() => {
     if (state.FavoritesData) {
@@ -58,6 +60,9 @@ const Main = () => {
       from = false;
     }
   }, [state.FavoritesData, douaaIndex]);
+  useEffect(() => {
+    if (route.params?.index) setDouaaIndex(route.params.index - 1);
+  }, [route]);
 
   const nextDouaa = () => {
     const nextIndex = douaaIndex + 1;
@@ -69,7 +74,7 @@ const Main = () => {
   const previousDouaa = () => {
     const previousIndex = douaaIndex - 1;
 
-    if (previousIndex > 0) {
+    if (previousIndex + 1 > 0) {
       setDouaaIndex(previousIndex);
     }
   };
@@ -88,6 +93,7 @@ const Main = () => {
 
   return (
     <>
+      {/* <Test /> */}
       <View
         style={{
           position: "absolute",
@@ -95,11 +101,23 @@ const Main = () => {
           left: 0,
           right: 0,
           bottom: 0,
+          backgroundColor: "#082c6c",
         }}
       >
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            transform: [{ scale: 1.5 }],
+          }}
+          speed={1}
+          source={require("../assets/lottie/sky.json")}
+          autoPlay
+          loop
+        />
         <Image
           source={require("../assets/sky2.jpg")}
-          style={{ height: "70%", width: "100%" }}
+          style={{ height: "70%", width: "100%", opacity: 0.3 }}
         />
       </View>
 
@@ -110,8 +128,10 @@ const Main = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
-        start={[0.1, 0]}
-        end={[0.5, 0.8]}
+        start={[0.1, 0.1]}
+        end={[0.1, 0.6]}
+        // start={[0.1, 0]}
+        // end={[0.1, 0.5]}
       >
         <Islam height={240} width={440} />
         <View style={styles.container}>
@@ -130,7 +150,7 @@ const Main = () => {
                 <Left
                   height={40}
                   width={40}
-                  fill={douaaIndex == 0 ? "gray" : "#082c6c"}
+                  fill={douaaIndex === 0 ? "gray" : "#082c6c"}
                 />
               </TouchableOpacity>
 
@@ -142,10 +162,7 @@ const Main = () => {
                   alignItems: "center",
                 }}
               >
-                <TouchableOpacity
-                  onPress={isFavorite ? deleteFav : addFav}
-                  disabled={douaaIndex == 0}
-                >
+                <TouchableOpacity onPress={isFavorite ? deleteFav : addFav}>
                   <LottieView
                     ref={animation}
                     style={{
@@ -159,7 +176,10 @@ const Main = () => {
                   />
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={nextDouaa}>
+              <TouchableOpacity
+                onPress={nextDouaa}
+                disabled={douaaIndex == DATA.length - 1}
+              >
                 <Right
                   height={40}
                   width={40}
