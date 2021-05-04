@@ -7,6 +7,7 @@ import {
   View,
   ImageBackground,
   Image,
+  Dimensions,
 } from "react-native";
 import Test from "../components/test";
 import { Context as dataContext } from "../context/dataContext";
@@ -18,7 +19,10 @@ import { DATA } from "../data/data";
 import LottieView from "lottie-react-native";
 import Left from "../assets/left.svg";
 import Right from "../assets/right.svg";
+import AnimatedCard from "../components/AnimatedCard";
 const db = SQLite.openDatabase("db.db");
+const { width } = Dimensions.get("screen");
+
 let from = false;
 const Main = ({ navigation, route }) => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
@@ -49,17 +53,18 @@ const Main = ({ navigation, route }) => {
         return item.id == DATA[douaaIndex].id;
       });
       setIsFavorite(isFavorite);
-      if (!from) {
-        if (isFavorite) {
-          animation.current.play(40, 40);
-        } else {
-          animation.current.play(0, 0);
-        }
-      }
+      // if (!from) {
+      //   if (isFavorite) {
+      //     animation.current.play(40, 40);
+      //   } else {
+      //     animation.current.play(0, 0);
+      //   }
+      // }
       console.log("this is from", from);
       from = false;
     }
   }, [state.FavoritesData, douaaIndex]);
+
   useEffect(() => {
     if (route.params?.index) setDouaaIndex(route.params.index - 1);
   }, [route]);
@@ -133,16 +138,50 @@ const Main = ({ navigation, route }) => {
         // start={[0.1, 0]}
         // end={[0.1, 0.5]}
       >
-        <Islam height={240} width={440} />
+        <Islam height={240} width={440} style={{ marginTop: -100 }} />
         <View style={styles.container}>
-          <Text style={[styles.text]}>{DATA[douaaIndex].value}</Text>
+          {/* // <AnimatedCard DATA={DATA}> */}
+          {/* {DATA.map((item) => (
+                <View
+                  style={{
+                    backgroundColor: "orange",
+                  }}
+                  key={item.id}
+                > */}
+          <AnimatedCard DATA={DATA}>
+            <View
+              style={{
+                flexDirection: "row",
+                width: width,
+              }}
+            >
+              {DATA.map((item) => (
+                <Text
+                  key={item.id}
+                  style={{
+                    fontFamily: "ArabFont2",
+                    fontSize: 20,
+                    borderWidth: 1,
+                    backgroundColor: "white",
+                    borderRadius: 10,
+                    textAlign: "center",
+                    marginHorizontal: 20,
+                  }}
+                >
+                  {item.value}
+                </Text>
+              ))}
+            </View>
+          </AnimatedCard>
+          {/* // </AnimatedCard> */}
+
           <View
             style={{
               flexDirection: "row",
               marginTop: 10,
             }}
           >
-            <View style={styles.botViewContainer}>
+            {/* <View style={styles.botViewContainer}>
               <TouchableOpacity
                 onPress={previousDouaa}
                 disabled={douaaIndex == 0}
@@ -186,7 +225,7 @@ const Main = ({ navigation, route }) => {
                   fill={douaaIndex == DATA.length - 1 ? "gray" : "#082c6c"}
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </View>
       </LinearGradient>
@@ -198,7 +237,6 @@ export default Main;
 
 const styles = StyleSheet.create({
   text: {
-    textAlign: "center",
     fontFamily: "ArabFont2",
     fontSize: 20,
     padding: 10,
@@ -215,6 +253,8 @@ const styles = StyleSheet.create({
     borderColor: "white",
     alignItems: "center",
     marginHorizontal: 5,
+    height: 400,
+    alignSelf: "stretch",
     padding: 10,
   },
   botViewContainer: {

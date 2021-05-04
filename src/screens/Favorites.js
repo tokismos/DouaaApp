@@ -1,8 +1,15 @@
 import React, { useContext, useEffect } from "react";
-import { Button, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { Context, Context as dataContext } from "../context/dataContext";
 
-const Favorites = () => {
+const Favorites = ({ navigation, route }) => {
   const { state, addFavorite, deleteFavorite } = React.useContext(Context);
   useEffect(() => {
     console.log("thisis state :", state.FavoritesData);
@@ -10,7 +17,12 @@ const Favorites = () => {
 
   const FavoriteItem = ({ item }) => {
     return (
-      <View style={{ backgroundColor: "white", margin: 20, padding: 20 }}>
+      <TouchableOpacity
+        style={{ backgroundColor: "white", margin: 20, padding: 20 }}
+        onPress={() => {
+          navigation.navigate("Home", { index: item.id });
+        }}
+      >
         <Text style={{ textAlign: "center" }}>{item.value}</Text>
         <Button
           title="delete"
@@ -18,7 +30,7 @@ const Favorites = () => {
             deleteFavorite(item);
           }}
         />
-      </View>
+      </TouchableOpacity>
     );
   };
   return (

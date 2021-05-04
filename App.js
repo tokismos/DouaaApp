@@ -4,7 +4,6 @@ import { StyleSheet, Text, View } from "react-native";
 import Navigator from "./src/navigation/Navigator";
 import { Provider as DataProvider } from "./src/context/dataContext";
 import { useFonts } from "expo-font";
-import AnimatedCard from "./src/components/AnimatedCard";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -20,7 +19,7 @@ export default function App() {
     <>
       <DataProvider>
         <View style={{ flex: 1 }}>
-          <AnimatedCard />
+          <Navigator />
           <StatusBar translucent />
         </View>
       </DataProvider>
