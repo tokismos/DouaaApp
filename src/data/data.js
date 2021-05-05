@@ -1,4 +1,4 @@
-export const DATA = [
+export const DATA1 = [
   {
     id: "1",
     value:
@@ -28,5 +28,36 @@ export const DATA = [
     id: "6",
     value:
       "تهنئة خالصة من الوريد الى الوريد بأرقى عبارات الود الشديد امدكم الله بالعمر المديد عيد سعيد",
+  },
+];
+
+export const DATA2 = [
+  {
+    id: "1",
+    value:
+      "Helllsssssssssssssssssssssssssssssss ddddddddddddddddddddddddddddoo",
+  },
+  {
+    id: "2",
+    value:
+      "HeldsadsaHeldsadsadllooHeldsadsadllooHeldsadsadlloo HeldsadsadllooHeldsadsadllooHeldsadsadlloodlloo",
+  },
+  {
+    id: "3",
+    value: "Hellsadsalsadsa lsadsalsadsalsadsalsadsalsadsalsadsalsadsadloo",
+  },
+  {
+    id: "4",
+    value:
+      "HelllsadooHelllsadooHelllsadooHelllsadoo HelllsadooHelllsadooHelllsadoo",
+  },
+  {
+    id: "5",
+    value: "Helldsadlodsaddsadsadv dsadvdsaddsadvvdsadddsaddsaddsaddsado",
+  },
+  {
+    id: "6",
+    value:
+      "  HellldsadsaooHellldsadsaoo HellldsadsaooHellldsadsaoo Hellldsadsaoo Hellldsadsaoo",
   },
 ];

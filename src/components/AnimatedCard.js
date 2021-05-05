@@ -65,9 +65,10 @@ const AnimatedCard = ({ children, touchBarStyle, DATA }) => {
         <Animated.View
           style={[
             {
-              backgroundColor: "blue",
               width,
-              height: 200,
+              height: 100,
+              bottom: 0,
+              position: "absolute",
             },
             touchBarStyle,
           ]}

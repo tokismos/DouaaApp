@@ -8,29 +8,135 @@ import {
   ImageBackground,
   Image,
   Dimensions,
+  FlatList,
 } from "react-native";
 import Test from "../components/test";
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
 import { LinearGradient } from "expo-linear-gradient";
-
+import {
+  PanGestureHandler,
+  TapGestureHandler,
+} from "react-native-gesture-handler";
+import Animated, {
+  useSharedValue,
+  withTiming,
+  useAnimatedStyle,
+  Easing,
+  withSpring,
+  useAnimatedGestureHandler,
+  runOnJS,
+} from "react-native-reanimated";
 import Islam from "../assets/islam.svg";
-import { DATA } from "../data/data";
+import { DATA1, DATA2 } from "../data/data";
 import LottieView from "lottie-react-native";
 import Left from "../assets/left.svg";
 import Right from "../assets/right.svg";
+import Allah from "../assets/allah.svg";
+import IslamicStar from "../assets/IslamicStar.svg";
 import AnimatedCard from "../components/AnimatedCard";
 const db = SQLite.openDatabase("db.db");
 const { width } = Dimensions.get("screen");
-
+const SPRING_CONFIG = {
+  damping: 80,
+  overshootClamping: true,
+  restDisplacementThreshold: 0.1,
+  restSpeedThreshold: 0.1,
+  stiffness: 500,
+};
 let from = false;
 const Main = ({ navigation, route }) => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
     dataContext
   );
   const [douaaIndex, setDouaaIndex] = useState(0);
+  const [DATA, setData] = useState(DATA2);
   const [isFavorite, setIsFavorite] = useState(false);
   const animation = useRef(null);
+  const doubleTapRef = useRef(null);
+
+  const left = useSharedValue(0);
+  const index = useSharedValue(0);
+
+  const modalStyle = useAnimatedStyle(() => {
+    return {
+      left: left.value,
+    };
+  });
+  const tes = (event) => {
+    if (event.nativeEvent.oldState === State.ACTIVE) {
+      console.log("helllllo");
+    }
+  };
+
+  const TYPES = [
+    { id: DATA1, value: " Douaa Type 1 " },
+    { id: DATA2, value: " Type 2 " },
+    { id: DATA1, value: " Douaae Type 3 " },
+    { id: DATA2, value: " Type 4 " },
+    { id: DATA2, value: " Type 5 " },
+    { id: DATA1, value: " Type 6 " },
+  ];
+  const DouaaTypes = () => {
+    return (
+      <View style={{ height: 50 }}>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          data={TYPES}
+          keyExtractor={(item) => item.value}
+          renderItem={({ item }) => {
+            return (
+              <TouchableOpacity
+                style={{
+                  backgroundColor: "white",
+                  margin: 10,
+                  padding: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 30,
+                }}
+                onPress={() => {
+                  setData(item.id);
+                }}
+              >
+                <Text>{item.value}</Text>
+              </TouchableOpacity>
+            );
+          }}
+        />
+      </View>
+    );
+  };
+
+  const eventHandler = useAnimatedGestureHandler({
+    onStart: (event, ctx) => {
+      ctx.value = left.value;
+    },
+    onActive: (event, ctx) => {
+      if (
+        (index.value + 1 == DATA?.length && event.translationX < 0) ||
+        (index.value == 0 && event.translationX > 0)
+      )
+        return;
+      left.value = ctx.value + event.translationX;
+    },
+    onEnd: (event, ctx) => {
+      if (event.translationX < 0 && index.value + 1 != DATA?.length) {
+        index.value = index.value + 1;
+        left.value = withSpring(-width * index.value, SPRING_CONFIG);
+        console.log("Indeexe", index.value);
+      }
+
+      if (event.translationX > 0 && index.value != 0) {
+        index.value = index.value - 1;
+
+        left.value = withSpring(-width * index.value - 1, SPRING_CONFIG);
+        console.log("INDEX", index.value);
+      }
+    },
+  });
+
   // Begin---> create the DB and fetch the data from it to show it in the favourite screen
   React.useEffect(() => {
     db.transaction((tx) => {
@@ -85,9 +191,10 @@ const Main = ({ navigation, route }) => {
   };
 
   const addFav = () => {
-    addFavorite(DATA[douaaIndex]);
-    from = true;
-    animation.current.play(10, 40);
+    console.log("hellloo");
+    // addFavorite(DATA[douaaIndex]);
+    // from = true;
+    // animation.current.play(10, 40);
   };
 
   const deleteFav = () => {
@@ -125,7 +232,6 @@ const Main = ({ navigation, route }) => {
           style={{ height: "70%", width: "100%", opacity: 0.3 }}
         />
       </View>
-
       <LinearGradient
         colors={["rgba(0,0,0,.3)", "#082c6c"]}
         style={{
@@ -148,87 +254,122 @@ const Main = ({ navigation, route }) => {
                   }}
                   key={item.id}
                 > */}
-          <AnimatedCard DATA={DATA}>
+          <Allah
+            height={30}
+            width={30}
+            fill="black"
+            style={{ position: "absolute", zIndex: 3 }}
+          />
+
+          <Animated.View style={[modalStyle, { zIndex: 1 }]}>
             <View
               style={{
                 flexDirection: "row",
                 width: width,
+                height: "100%",
               }}
             >
               {DATA.map((item) => (
-                <Text
+                <View
                   key={item.id}
                   style={{
-                    fontFamily: "ArabFont2",
-                    fontSize: 20,
-                    borderWidth: 1,
                     backgroundColor: "white",
                     borderRadius: 10,
-                    textAlign: "center",
-                    marginHorizontal: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: 20,
+                    borderWidth: 1,
+                    elevation: 5,
                   }}
                 >
-                  {item.value}
-                </Text>
+                  <Text
+                    key={item.id}
+                    style={{
+                      fontFamily: "ArabFont2",
+                      fontSize: 20,
+                      borderRadius: 10,
+                      textAlign: "center",
+                      padding: 10,
+                    }}
+                  >
+                    {item.value}
+                  </Text>
+                </View>
               ))}
             </View>
-          </AnimatedCard>
-          {/* // </AnimatedCard> */}
+          </Animated.View>
 
+          {/* // </AnimatedCard> */}
+          <Allah
+            height={300}
+            width={300}
+            fill="#082c6c"
+            style={{ position: "absolute", bottom: -10 }}
+          />
           <View
             style={{
               flexDirection: "row",
               marginTop: 10,
             }}
-          >
-            {/* <View style={styles.botViewContainer}>
-              <TouchableOpacity
-                onPress={previousDouaa}
-                disabled={douaaIndex == 0}
-              >
-                <Left
-                  height={40}
-                  width={40}
-                  fill={douaaIndex === 0 ? "gray" : "#082c6c"}
-                />
-              </TouchableOpacity>
-
-              <View
-                style={{
-                  height: 60,
-                  width: 60,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <TouchableOpacity onPress={isFavorite ? deleteFav : addFav}>
-                  <LottieView
-                    ref={animation}
-                    style={{
-                      width: 150,
-                      height: 150,
-                    }}
-                    speed={1.5}
-                    source={require("../assets/lottie/LikeButton.json")}
-                    autoPlay={false}
-                    loop={false}
-                  />
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity
-                onPress={nextDouaa}
-                disabled={douaaIndex == DATA.length - 1}
-              >
-                <Right
-                  height={40}
-                  width={40}
-                  fill={douaaIndex == DATA.length - 1 ? "gray" : "#082c6c"}
-                />
-              </TouchableOpacity>
-            </View> */}
-          </View>
+          ></View>
         </View>
+        <TouchableOpacity
+          onPress={() => console.log("jf")}
+          style={{
+            position: "absolute",
+            bottom: 10,
+            left: width / 2 - 40,
+            backgroundColor: "white",
+          }}
+        >
+          <TouchableOpacity onPress={() => console.log("jf")}>
+            <LottieView
+              ref={animation}
+              style={{
+                width: 70,
+                height: 70,
+                position: "absolute",
+                backgroundColor: "yellow",
+                left: 3,
+                top: 2,
+                zIndex: 4,
+              }}
+              speed={1.5}
+              source={require("../assets/lottie/LikeButton.json")}
+              autoPlay={false}
+              loop={false}
+            />
+          </TouchableOpacity>
+          <IslamicStar height={80} width={80} fill="white" style={{}} />
+        </TouchableOpacity>
+        <TapGestureHandler
+          waitFor={doubleTapRef}
+          style={{ zIndex: 0, position: "absolute" }}
+        >
+          <Animated.View
+            style={{
+              width,
+              height: "65%",
+              bottom: 0,
+              position: "absolute",
+            }}
+          >
+            <PanGestureHandler onGestureEvent={eventHandler}>
+              <Animated.View
+                style={[
+                  {
+                    backgroundColor: "red",
+                    width,
+                    height: "80%",
+                    position: "absolute",
+                  },
+                ]}
+              />
+            </PanGestureHandler>
+          </Animated.View>
+        </TapGestureHandler>
       </LinearGradient>
+      <DouaaTypes />
     </>
   );
 };
@@ -253,7 +394,7 @@ const styles = StyleSheet.create({
     borderColor: "white",
     alignItems: "center",
     marginHorizontal: 5,
-    height: 400,
+    height: "50%",
     alignSelf: "stretch",
     padding: 10,
   },
