@@ -20,14 +20,17 @@ const Favorites = ({ navigation, route }) => {
       <TouchableOpacity
         style={{ backgroundColor: "white", margin: 20, padding: 20 }}
         onPress={() => {
-          navigation.navigate("Home", { index: item.id });
+          navigation.navigate("Home", {
+            index: item.id,
+            categorie: item.categorie,
+          });
         }}
       >
         <Text style={{ textAlign: "center" }}>{item.value}</Text>
         <Button
           title="delete"
           onPress={() => {
-            deleteFavorite(item);
+            deleteFavorite(item, item.categorie);
           }}
         />
       </TouchableOpacity>

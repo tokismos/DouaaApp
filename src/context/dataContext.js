@@ -15,9 +15,12 @@ const dataReducer = (state, action) => {
     case "DELETE_FAVORITE":
       return {
         ...state,
-        FavoritesData: state.FavoritesData.filter(
-          (item) => item.id != action.payload.id
-        ),
+        FavoritesData: state.FavoritesData.filter((item) => {
+          return (
+            item.id != action.payload.id ||
+            item.categorie != action.payload.categorie
+          );
+        }),
       };
     case "SYNC_FAVORITES":
       return { ...state, FavoritesData: action.payload };
@@ -26,13 +29,13 @@ const dataReducer = (state, action) => {
   }
 };
 
-const addFavorite = (dispatch) => (data) => {
+const addFavorite = (dispatch) => (data, categorie) => {
   console.log("aded");
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "insert into douaae  values(?,?) ",
-        [data.id, data.value],
+        "insert into douaae  values(?,?,?) ",
+        [data.id, data.value, categorie],
         (_, resultSet) => console.log("Added successfuly"),
         (e, s) => console.log("AN eRROR:", s)
       );
@@ -40,24 +43,24 @@ const addFavorite = (dispatch) => (data) => {
     (e) => console.log(e),
     () => console.log("added")
   );
-  dispatch({ type: "ADD_FAVORITE", payload: data });
+  dispatch({ type: "ADD_FAVORITE", payload: { ...data, categorie } });
 };
 
-const deleteFavorite = (dispatch) => (data) => {
+const deleteFavorite = (dispatch) => (data, categorie) => {
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "DELETE FROM douaae WHERE id = ?",
-        [data.id],
+        "DELETE FROM douaae WHERE id = ? AND  categorie =?",
+        [data.id, categorie],
         (_, resultSet) => console.log("Deletted successfuly"),
         (e, s) => console.log("AN eRROR:", s)
       );
     },
-    (e) => console.log(e),
+    (e) => console.log("ERRR", e),
     () => console.log("added")
   );
 
-  dispatch({ type: "DELETE_FAVORITE", payload: data });
+  dispatch({ type: "DELETE_FAVORITE", payload: { ...data, categorie } });
 };
 const syncFavorites = (dispatch) => () => {
   db.transaction(

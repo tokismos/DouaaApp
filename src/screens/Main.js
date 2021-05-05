@@ -26,6 +26,7 @@ import Animated, {
   withSpring,
   useAnimatedGestureHandler,
   runOnJS,
+  add,
 } from "react-native-reanimated";
 import Islam from "../assets/islam.svg";
 import { DATA1, DATA2 } from "../data/data";
@@ -35,6 +36,7 @@ import Right from "../assets/right.svg";
 import Allah from "../assets/allah.svg";
 import IslamicStar from "../assets/IslamicStar.svg";
 import AnimatedCard from "../components/AnimatedCard";
+import DouaaTypes from "../components/DouaaTypes";
 const db = SQLite.openDatabase("db.db");
 const { width } = Dimensions.get("screen");
 const SPRING_CONFIG = {
@@ -50,64 +52,38 @@ const Main = ({ navigation, route }) => {
     dataContext
   );
   const [douaaIndex, setDouaaIndex] = useState(0);
-  const [DATA, setData] = useState(DATA2);
+  const [DATA, setData] = useState(DATA1);
+  const [CATEGORIE, setType] = useState("1");
   const [isFavorite, setIsFavorite] = useState(false);
   const animation = useRef(null);
   const doubleTapRef = useRef(null);
 
   const left = useSharedValue(0);
-  const index = useSharedValue(0);
+  const index = useSharedValue(douaaIndex);
 
   const modalStyle = useAnimatedStyle(() => {
     return {
       left: left.value,
     };
   });
-  const tes = (event) => {
-    if (event.nativeEvent.oldState === State.ACTIVE) {
-      console.log("helllllo");
-    }
-  };
 
+  useEffect(() => {
+    console.log("this is type:", CATEGORIE);
+    switch (CATEGORIE) {
+      case "1":
+        return setData(DATA1);
+      case "2":
+        return setData(DATA2);
+    }
+  }, [CATEGORIE]);
   const TYPES = [
-    { id: DATA1, value: " Douaa Type 1 " },
-    { id: DATA2, value: " Type 2 " },
-    { id: DATA1, value: " Douaae Type 3 " },
-    { id: DATA2, value: " Type 4 " },
-    { id: DATA2, value: " Type 5 " },
-    { id: DATA1, value: " Type 6 " },
+    { type: "1", value: " Douaa Type '1' " },
+    { type: "2", value: " Type '2' " },
+    { type: "1", value: " Douaae Type 3 " },
+    { type: "2", value: " Type 4 " },
+    { type: "2", value: " Type 5 " },
+    { type: "1", value: " Type 6 " },
   ];
-  const DouaaTypes = () => {
-    return (
-      <View style={{ height: 50 }}>
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          horizontal
-          data={TYPES}
-          keyExtractor={(item) => item.value}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                style={{
-                  backgroundColor: "white",
-                  margin: 10,
-                  padding: 10,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 30,
-                }}
-                onPress={() => {
-                  setData(item.id);
-                }}
-              >
-                <Text>{item.value}</Text>
-              </TouchableOpacity>
-            );
-          }}
-        />
-      </View>
-    );
-  };
 
   const eventHandler = useAnimatedGestureHandler({
     onStart: (event, ctx) => {
@@ -124,12 +100,14 @@ const Main = ({ navigation, route }) => {
     onEnd: (event, ctx) => {
       if (event.translationX < 0 && index.value + 1 != DATA?.length) {
         index.value = index.value + 1;
+        runOnJS(setDouaaIndex)(index);
         left.value = withSpring(-width * index.value, SPRING_CONFIG);
         console.log("Indeexe", index.value);
       }
 
       if (event.translationX > 0 && index.value != 0) {
         index.value = index.value - 1;
+        runOnJS(setDouaaIndex)(index);
 
         left.value = withSpring(-width * index.value - 1, SPRING_CONFIG);
         console.log("INDEX", index.value);
@@ -141,7 +119,7 @@ const Main = ({ navigation, route }) => {
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "create table if not exists douaae (id integer not null, value text);",
+        "create table if not exists douaae (id integer not null, value text,categorie text);",
         [],
         () => console.log("succeeded"),
         () => console.log("failed")
@@ -149,57 +127,38 @@ const Main = ({ navigation, route }) => {
     });
     console.log(state);
     syncFavorites();
-    console.log("this isss props:", route);
   }, []);
   // END
 
   useEffect(() => {
     if (state.FavoritesData) {
       const isFavorite = state.FavoritesData.find((item) => {
-        return item.id == DATA[douaaIndex].id;
+        return item.id == DATA[index.value].id && CATEGORIE == item.categorie;
       });
       setIsFavorite(isFavorite);
-      // if (!from) {
-      //   if (isFavorite) {
-      //     animation.current.play(40, 40);
-      //   } else {
-      //     animation.current.play(0, 0);
-      //   }
-      // }
-      console.log("this is from", from);
-      from = false;
+      if (isFavorite) {
+        animation.current.play(40, 40);
+      } else {
+        animation.current.play(0, 0);
+      }
     }
-  }, [state.FavoritesData, douaaIndex]);
+  }, [state.FavoritesData, index.value, isFavorite, CATEGORIE]);
 
   useEffect(() => {
-    if (route.params?.index) setDouaaIndex(route.params.index - 1);
+    if (route.params?.index) {
+      index.value = route.params?.index;
+      setType(route.params?.categorie);
+    }
   }, [route]);
 
-  const nextDouaa = () => {
-    const nextIndex = douaaIndex + 1;
-
-    if (nextIndex < DATA.length) {
-      setDouaaIndex(nextIndex);
-    }
-  };
-  const previousDouaa = () => {
-    const previousIndex = douaaIndex - 1;
-
-    if (previousIndex + 1 > 0) {
-      setDouaaIndex(previousIndex);
-    }
-  };
-
   const addFav = () => {
-    console.log("hellloo");
-    // addFavorite(DATA[douaaIndex]);
-    // from = true;
-    // animation.current.play(10, 40);
+    addFavorite(DATA[index.value], CATEGORIE);
+    animation.current.play(10, 40);
   };
 
   const deleteFav = () => {
-    deleteFavorite(DATA[douaaIndex]);
-    from = true;
+    console.log("hihihih", DATA[index.value]);
+    deleteFavorite(DATA[index.value], CATEGORIE);
     animation.current.play(50, 90);
   };
 
@@ -306,70 +265,49 @@ const Main = ({ navigation, route }) => {
             fill="#082c6c"
             style={{ position: "absolute", bottom: -10 }}
           />
-          <View
-            style={{
-              flexDirection: "row",
-              marginTop: 10,
-            }}
-          ></View>
         </View>
         <TouchableOpacity
-          onPress={() => console.log("jf")}
+          onPress={() => {
+            isFavorite ? deleteFav() : addFav();
+          }}
           style={{
             position: "absolute",
             bottom: 10,
             left: width / 2 - 40,
-            backgroundColor: "white",
+            zIndex: 1,
           }}
         >
-          <TouchableOpacity onPress={() => console.log("jf")}>
-            <LottieView
-              ref={animation}
-              style={{
-                width: 70,
-                height: 70,
-                position: "absolute",
-                backgroundColor: "yellow",
-                left: 3,
-                top: 2,
-                zIndex: 4,
-              }}
-              speed={1.5}
-              source={require("../assets/lottie/LikeButton.json")}
-              autoPlay={false}
-              loop={false}
-            />
-          </TouchableOpacity>
+          <LottieView
+            ref={animation}
+            style={{
+              width: 70,
+              height: 70,
+              position: "absolute",
+              left: 3,
+              top: 2,
+              zIndex: 4,
+            }}
+            speed={1.5}
+            source={require("../assets/lottie/LikeButton.json")}
+            autoPlay={false}
+            loop={false}
+          />
           <IslamicStar height={80} width={80} fill="white" style={{}} />
         </TouchableOpacity>
-        <TapGestureHandler
-          waitFor={doubleTapRef}
-          style={{ zIndex: 0, position: "absolute" }}
-        >
-          <Animated.View
-            style={{
-              width,
-              height: "65%",
-              bottom: 0,
-              position: "absolute",
-            }}
-          >
-            <PanGestureHandler onGestureEvent={eventHandler}>
-              <Animated.View
-                style={[
-                  {
-                    backgroundColor: "red",
-                    width,
-                    height: "80%",
-                    position: "absolute",
-                  },
-                ]}
-              />
-            </PanGestureHandler>
-          </Animated.View>
-        </TapGestureHandler>
       </LinearGradient>
-      <DouaaTypes />
+      <PanGestureHandler onGestureEvent={eventHandler}>
+        <Animated.View
+          style={[
+            {
+              width,
+              height: "100%",
+              position: "absolute",
+              zIndex: 0,
+            },
+          ]}
+        />
+      </PanGestureHandler>
+      <DouaaTypes TYPES={TYPES} setType={setType} />
     </>
   );
 };
