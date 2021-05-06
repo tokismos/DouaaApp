@@ -46,7 +46,7 @@ const SPRING_CONFIG = {
   restSpeedThreshold: 0.1,
   stiffness: 500,
 };
-let from;
+let from = false;
 const Main = ({ navigation, route }) => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
     dataContext
@@ -136,37 +136,29 @@ const Main = ({ navigation, route }) => {
         return item.id == DATA[index.value].id && CATEGORIE == item.categorie;
       });
       setIsFavorite(isFavorite);
-      console.log("this is from", from);
-      if (!from) {
-        console.log("heeei");
-        if (isFavorite) {
-          animation.current.play(40, 40);
-        } else {
-          animation.current.play(0, 0);
-        }
-        from = false;
+      if (isFavorite) {
+        animation.current.play(40, 40);
+      } else {
+        animation.current.play(0, 0);
       }
     }
   }, [state.FavoritesData, index.value, isFavorite, CATEGORIE]);
 
   useEffect(() => {
     if (route.params?.index) {
-      console.log("this is index value", index.value);
-      index.value = route.params.index;
+      index.value = route.params?.index;
       setType(route.params?.categorie);
     }
   }, [route]);
 
   const addFav = () => {
     addFavorite(DATA[index.value], CATEGORIE);
-    from = true;
     animation.current.play(10, 40);
   };
 
   const deleteFav = () => {
     console.log("hihihih", DATA[index.value]);
     deleteFavorite(DATA[index.value], CATEGORIE);
-    from = true;
     animation.current.play(50, 90);
   };
 
@@ -194,46 +186,6 @@ const Main = ({ navigation, route }) => {
           autoPlay
           loop
         />
-        <LottieView
-          style={{
-            position: "absolute",
-            width: "100%",
-            transform: [{ translateY: 40 }],
-            opacity: 1,
-            zIndex: 3,
-          }}
-          speed={1}
-          source={require("../assets/lottie/Test.json")}
-          autoPlay
-          loop
-        />
-        <LottieView
-          style={{
-            position: "absolute",
-            width: "100%",
-            transform: [{ translateX: 20 }],
-            opacity: 1,
-            zIndex: 3,
-          }}
-          speed={2}
-          source={require("../assets/lottie/Test.json")}
-          autoPlay
-          loop
-        />
-        <LottieView
-          style={{
-            position: "absolute",
-            width: "100%",
-            transform: [{ translateX: -70 }],
-            opacity: 1,
-            zIndex: 4,
-          }}
-          speed={2}
-          source={require("../assets/lottie/Test.json")}
-          autoPlay
-          loop
-        />
-
         <Image
           source={require("../assets/sky2.jpg")}
           style={{ height: "70%", width: "100%", opacity: 0.3 }}
@@ -261,12 +213,12 @@ const Main = ({ navigation, route }) => {
                   }}
                   key={item.id}
                 > */}
-          {/* <Allah
+          <Allah
             height={30}
             width={30}
             fill="black"
             style={{ position: "absolute", zIndex: 3 }}
-          /> */}
+          />
 
           <Animated.View style={[modalStyle, { zIndex: 1 }]}>
             <View
