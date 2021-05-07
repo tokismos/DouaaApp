@@ -12,6 +12,8 @@ const dataReducer = (state, action) => {
         ...state,
         FavoritesData: [...state.FavoritesData, action.payload],
       };
+    case "SET_INDEX":
+      return { ...state, index: action.payload };
     case "DELETE_FAVORITE":
       return {
         ...state,
@@ -74,8 +76,12 @@ const syncFavorites = (dispatch) => () => {
   );
 };
 
+const setIndex = (dispatch) => (index) => {
+  dispatch({ type: "SET_INDEX", payload: index });
+};
+
 export const { Provider, Context } = createDataContext(
   dataReducer,
-  { addFavorite, syncFavorites, deleteFavorite },
-  { FavoritesData: "" }
+  { addFavorite, syncFavorites, deleteFavorite, setIndex },
+  { FavoritesData: "", Categories }
 );
