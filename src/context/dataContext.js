@@ -59,7 +59,7 @@ const deleteFavorite = (dispatch) => (data, categorie) => {
       );
     },
     (e) => console.log("ERRR", e),
-    () => console.log("added")
+    () => console.log("Dooone")
   );
 
   dispatch({ type: "DELETE_FAVORITE", payload: { ...data, categorie } });
@@ -83,5 +83,5 @@ const setIndex = (dispatch) => (index) => {
 export const { Provider, Context } = createDataContext(
   dataReducer,
   { addFavorite, syncFavorites, deleteFavorite, setIndex },
-  { FavoritesData: "", Categories }
+  { FavoritesData: "", index: "5" }
 );

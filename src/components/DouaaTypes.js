@@ -6,15 +6,15 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-
-const DouaaTypes = ({ TYPES, setType }) => {
+import { CATEGORIES } from "../data/data";
+const DouaaTypes = ({ setCategorie, setData }) => {
   return (
     <View style={{ height: 50 }}>
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
-        data={TYPES}
-        keyExtractor={(item) => item.value}
+        data={CATEGORIES}
+        keyExtractor={(item) => item.categorie}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
@@ -24,13 +24,13 @@ const DouaaTypes = ({ TYPES, setType }) => {
                 padding: 10,
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: 30,
+                borderRadius: 10,
               }}
               onPress={() => {
-                setType(item.type);
+                setCategorie(item.categorie);
               }}
             >
-              <Text>{item.value}</Text>
+              <Text style={{}}>{item.name}</Text>
             </TouchableOpacity>
           );
         }}

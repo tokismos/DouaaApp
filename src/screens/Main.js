@@ -10,33 +10,16 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import Test from "../components/test";
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-  PanGestureHandler,
-  TapGestureHandler,
-} from "react-native-gesture-handler";
-import Animated, {
-  useSharedValue,
-  withTiming,
-  useAnimatedStyle,
-  Easing,
-  withSpring,
-  useAnimatedGestureHandler,
-  runOnJS,
-  add,
-} from "react-native-reanimated";
+
 import Islam from "../assets/islam.svg";
-import { DATA1, DATA2 } from "../data/data";
+import { DATA1, DATA2, CATEGORIES } from "../data/data";
 import LottieView from "lottie-react-native";
-import Left from "../assets/left.svg";
-import Right from "../assets/right.svg";
-import Allah from "../assets/allah.svg";
 import IslamicStar from "../assets/IslamicStar.svg";
-import AnimatedCard from "../components/AnimatedCard";
 import DouaaTypes from "../components/DouaaTypes";
+import SliderDouaa from "../components/SliderDouaa";
 const db = SQLite.openDatabase("db.db");
 const { width } = Dimensions.get("screen");
 const SPRING_CONFIG = {
@@ -53,19 +36,9 @@ const Main = ({ navigation, route }) => {
   );
   const [douaaIndex, setDouaaIndex] = useState(0);
   const [DATA, setData] = useState(DATA1);
-  const [CATEGORIE, setType] = useState("1");
+  const [CATEGORIE, setCategorie] = useState("1");
   const [isFavorite, setIsFavorite] = useState(false);
   const animation = useRef(null);
-  const doubleTapRef = useRef(null);
-
-  const left = useSharedValue(0);
-  const index = useSharedValue(douaaIndex);
-
-  const modalStyle = useAnimatedStyle(() => {
-    return {
-      left: left.value,
-    };
-  });
 
   useEffect(() => {
     console.log("this is type:", CATEGORIE);
@@ -76,44 +49,6 @@ const Main = ({ navigation, route }) => {
         return setData(DATA2);
     }
   }, [CATEGORIE]);
-  const TYPES = [
-    { type: "1", value: " Douaa Type '1' " },
-    { type: "2", value: " Type '2' " },
-    { type: "1", value: " Douaae Type 3 " },
-    { type: "2", value: " Type 4 " },
-    { type: "2", value: " Type 5 " },
-    { type: "1", value: " Type 6 " },
-  ];
-
-  const eventHandler = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
-      ctx.value = left.value;
-    },
-    onActive: (event, ctx) => {
-      if (
-        (index.value + 1 == DATA?.length && event.translationX < 0) ||
-        (index.value == 0 && event.translationX > 0)
-      )
-        return;
-      left.value = ctx.value + event.translationX;
-    },
-    onEnd: (event, ctx) => {
-      if (event.translationX < 0 && index.value + 1 != DATA?.length) {
-        index.value = index.value + 1;
-        runOnJS(setDouaaIndex)(index);
-        left.value = withSpring(-width * index.value, SPRING_CONFIG);
-        console.log("Indeexe", index.value);
-      }
-
-      if (event.translationX > 0 && index.value != 0) {
-        index.value = index.value - 1;
-        runOnJS(setDouaaIndex)(index);
-
-        left.value = withSpring(-width * index.value - 1, SPRING_CONFIG);
-        console.log("INDEX", index.value);
-      }
-    },
-  });
 
   // Begin---> create the DB and fetch the data from it to show it in the favourite screen
   React.useEffect(() => {
@@ -133,7 +68,7 @@ const Main = ({ navigation, route }) => {
   useEffect(() => {
     if (state.FavoritesData) {
       const isFavorite = state.FavoritesData.find((item) => {
-        return item.id == DATA[index.value].id && CATEGORIE == item.categorie;
+        return item.id == DATA[state.index]?.id && CATEGORIE == item.categorie;
       });
       setIsFavorite(isFavorite);
       if (isFavorite) {
@@ -142,29 +77,21 @@ const Main = ({ navigation, route }) => {
         animation.current.play(0, 0);
       }
     }
-  }, [state.FavoritesData, index.value, isFavorite, CATEGORIE]);
-
-  useEffect(() => {
-    if (route.params?.index) {
-      index.value = route.params?.index;
-      setType(route.params?.categorie);
-    }
-  }, [route]);
+  }, [state.FavoritesData, state.index, isFavorite, CATEGORIE]);
 
   const addFav = () => {
-    addFavorite(DATA[index.value], CATEGORIE);
+    addFavorite(DATA[state.index], CATEGORIE);
     animation.current.play(10, 40);
   };
 
   const deleteFav = () => {
-    console.log("hihihih", DATA[index.value]);
-    deleteFavorite(DATA[index.value], CATEGORIE);
+    console.log("hihihih", DATA[state.index]);
+    deleteFavorite(DATA[state.index], CATEGORIE);
     animation.current.play(50, 90);
   };
 
   return (
     <>
-      {/* <Test /> */}
       <View
         style={{
           position: "absolute",
@@ -200,71 +127,17 @@ const Main = ({ navigation, route }) => {
         }}
         start={[0.1, 0.1]}
         end={[0.1, 0.6]}
-        // start={[0.1, 0]}
-        // end={[0.1, 0.5]}
       >
         <Islam height={240} width={440} style={{ marginTop: -100 }} />
         <View style={styles.container}>
-          {/* // <AnimatedCard DATA={DATA}> */}
-          {/* {DATA.map((item) => (
-                <View
-                  style={{
-                    backgroundColor: "orange",
-                  }}
-                  key={item.id}
-                > */}
-          <Allah
-            height={30}
-            width={30}
-            fill="black"
-            style={{ position: "absolute", zIndex: 3 }}
-          />
+          <SliderDouaa data={DATA} />
 
-          <Animated.View style={[modalStyle, { zIndex: 1 }]}>
-            <View
-              style={{
-                flexDirection: "row",
-                width: width,
-                height: "100%",
-              }}
-            >
-              {DATA.map((item) => (
-                <View
-                  key={item.id}
-                  style={{
-                    backgroundColor: "white",
-                    borderRadius: 10,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: 20,
-                    borderWidth: 1,
-                    elevation: 5,
-                  }}
-                >
-                  <Text
-                    key={item.id}
-                    style={{
-                      fontFamily: "ArabFont2",
-                      fontSize: 20,
-                      borderRadius: 10,
-                      textAlign: "center",
-                      padding: 10,
-                    }}
-                  >
-                    {item.value}
-                  </Text>
-                </View>
-              ))}
-            </View>
-          </Animated.View>
-
-          {/* // </AnimatedCard> */}
-          <Allah
+          {/* <Allah
             height={300}
             width={300}
             fill="#082c6c"
             style={{ position: "absolute", bottom: -10 }}
-          />
+          /> */}
         </View>
         <TouchableOpacity
           onPress={() => {
@@ -295,19 +168,8 @@ const Main = ({ navigation, route }) => {
           <IslamicStar height={80} width={80} fill="white" style={{}} />
         </TouchableOpacity>
       </LinearGradient>
-      <PanGestureHandler onGestureEvent={eventHandler}>
-        <Animated.View
-          style={[
-            {
-              width,
-              height: "100%",
-              position: "absolute",
-              zIndex: 0,
-            },
-          ]}
-        />
-      </PanGestureHandler>
-      <DouaaTypes TYPES={TYPES} setType={setType} />
+
+      <DouaaTypes setCategorie={setCategorie} />
     </>
   );
 };
