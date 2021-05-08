@@ -17,6 +17,8 @@ import {
   Button,
 } from "react-native";
 import { Context as dataContext } from "../context/dataContext";
+import LottieView from "lottie-react-native";
+
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -26,12 +28,17 @@ import Animated, {
 import Arrow from "../assets/arrow.svg";
 import Close from "../assets/close.svg";
 import Flower from "../assets/flower.svg";
+import Exclamation from "../assets/exclamation.svg";
+import InfoView from "./InfoViewFavorite";
 
 const DouaaCard = ({ item }) => {
   const {
     state: { index },
     deleteFavorite,
   } = useContext(dataContext);
+  const [toggleInfo, setToggleInfo] = useState(false);
+  const animation = useRef();
+
   return (
     <View
       style={{
@@ -53,6 +60,36 @@ const DouaaCard = ({ item }) => {
         <Close height={20} width={20} fill="red" />
       </TouchableOpacity>
       <View style={{ alignItems: "center" }}>
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            left: 0,
+            opacity: 0.7,
+            padding: 10,
+            marginLeft: -10,
+            marginTop: -10,
+            marginRight: -10,
+          }}
+          onPress={() => {
+            animation.current.play(57, 57);
+
+            LayoutAnimation.configureNext(
+              LayoutAnimation.Presets.easeInEaseOut
+            );
+
+            setToggleInfo(!toggleInfo);
+          }}
+        >
+          <View style={{ height: 25, width: 25 }}>
+            <LottieView
+              ref={animation}
+              source={require("../assets/lottie/info.json")}
+              autoPlay
+              loop
+            />
+          </View>
+          {/* <Exclamation width={20} height={20} fill={"black"} /> */}
+        </TouchableOpacity>
         <Text style={{ position: "absolute", top: 15 }}>تقرأ مرتين</Text>
         <Flower
           height={100}
@@ -60,10 +97,12 @@ const DouaaCard = ({ item }) => {
           style={{ marginTop: -25, marginBottom: -15 }}
         />
       </View>
+      <InfoView toggleInfo={toggleInfo} setToggleInfo={setToggleInfo} />
       <Text
         style={{
           textAlign: "center",
           margin: 5,
+          marginHorizontal: -5,
           fontFamily: "ArabFont2",
           fontSize: 18,
           color: "black",
@@ -122,11 +161,7 @@ const Accordeon = ({ data, title }) => {
       >
         <View style={[styles.headerTitle]}>
           <Animated.View style={[arrowStyle]}>
-            <Arrow
-              height={20}
-              width={20}
-              fill={toggled ? "#082c6c" : "#082c6c"}
-            />
+            <Arrow height={20} width={20} fill={"#082c6c"} />
           </Animated.View>
           <Text
             style={{

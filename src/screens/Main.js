@@ -108,7 +108,6 @@ const Main = ({ navigation, route }) => {
         style={{
           position: "absolute",
           top: -13,
-          backgroundColor: "red",
           padding: 10,
         }}
       >

@@ -2,6 +2,7 @@ import React, { useContext, useRef } from "react";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { Context as dataContext } from "../context/dataContext";
+import Flower from "../assets/flower.svg";
 
 const { width } = Dimensions.get("screen");
 const SliderDouaa = ({ data }) => {
