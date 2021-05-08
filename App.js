@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import Navigator from "./src/navigation/Navigator";
 import { Provider as DataProvider } from "./src/context/dataContext";
 import { useFonts } from "expo-font";
+import Toast from "react-native-toast-message";
 
 export default function App() {
   const [loaded] = useFonts({

@@ -10,11 +10,11 @@ const SliderDouaa = ({ data }) => {
     state: { index },
     setIndex,
   } = useContext(dataContext);
-  const Test = ({ item }) => {
+  const CardViewItem = ({ item }) => {
     return (
       <View
         style={{
-          backgroundColor: "white",
+          backgroundColor: "#F5F5F5",
           height: 300,
           alignItems: "center",
           justifyContent: "center",
@@ -50,7 +50,7 @@ const SliderDouaa = ({ data }) => {
       firstItem={parseInt(index)}
       onSnapToItem={(index) => setIndex(index)}
       renderItem={({ item }, index) => {
-        return <Test item={item} />;
+        return <CardViewItem item={item} />;
       }}
     />
   );

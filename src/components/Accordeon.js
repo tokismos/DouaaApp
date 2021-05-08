@@ -25,6 +25,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Arrow from "../assets/arrow.svg";
 import Close from "../assets/close.svg";
+import Flower from "../assets/flower.svg";
 
 const DouaaCard = ({ item }) => {
   const {
@@ -34,24 +35,42 @@ const DouaaCard = ({ item }) => {
   return (
     <View
       style={{
-        backgroundColor: "orange",
+        backgroundColor: "#F5F5F5",
         borderWidth: 1,
-        margin: 20,
-        padding: 20,
+        margin: 10,
+        padding: 10,
+        borderRadius: 10,
       }}
     >
       <TouchableOpacity
         onPress={() => deleteFavorite(item, item.categorie)}
         style={{
           position: "absolute",
-          Zindex: 1,
           right: 0,
           padding: 5,
         }}
       >
         <Close height={20} width={20} fill="red" />
       </TouchableOpacity>
-      <Text style={{ textAlign: "center", margin: 10 }}>{item.value}</Text>
+      <View style={{ alignItems: "center" }}>
+        <Text style={{ position: "absolute", top: 15 }}>تقرأ مرتين</Text>
+        <Flower
+          height={100}
+          width={100}
+          style={{ marginTop: -25, marginBottom: -15 }}
+        />
+      </View>
+      <Text
+        style={{
+          textAlign: "center",
+          margin: 5,
+          fontFamily: "ArabFont2",
+          fontSize: 18,
+          color: "black",
+        }}
+      >
+        {item.value}
+      </Text>
     </View>
   );
 };
@@ -65,7 +84,6 @@ const Accordeon = ({ data, title }) => {
     }
   }, []);
   useEffect(() => {
-    from = false;
     if (toggled) {
       botRadius.value = 0;
       return (rotation.value = withTiming("180deg"));
@@ -95,7 +113,7 @@ const Accordeon = ({ data, title }) => {
         style={[
           styles.touchableHeader,
           bottomRadius,
-          { backgroundColor: toggled ? "#FFD700" : "white" },
+          { backgroundColor: "#F5F5F5" },
         ]}
         onPress={() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -107,10 +125,18 @@ const Accordeon = ({ data, title }) => {
             <Arrow
               height={20}
               width={20}
-              fill={toggled ? "white" : "#082c6c"}
+              fill={toggled ? "#082c6c" : "#082c6c"}
             />
           </Animated.View>
-          <Text style={{ textAlign: "right" }}>{title}</Text>
+          <Text
+            style={{
+              textAlign: "right",
+              fontSize: 20,
+              fontWeight: "bold",
+            }}
+          >
+            - {title}
+          </Text>
         </View>
       </AnimatedPressable>
 
@@ -137,7 +163,7 @@ export default Accordeon;
 const styles = StyleSheet.create({
   touchableHeader: {
     borderWidth: 1,
-    margin: 10,
+    margin: 5,
     marginBottom: 0,
     borderBottomWidth: 0,
 
@@ -152,10 +178,11 @@ const styles = StyleSheet.create({
   expandedView: {
     borderWidth: 1,
     borderTopWidth: 0,
+    borderColor: "white",
     marginHorizontal: 10,
-    marginTop: 10,
-    backgroundColor: "#FFD700",
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
+    marginTop: 1,
+    backgroundColor: "white",
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
   },
 });

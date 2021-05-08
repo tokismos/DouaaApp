@@ -9,6 +9,7 @@ import {
   Image,
   Dimensions,
   FlatList,
+  ToastAndroid,
 } from "react-native";
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
@@ -18,10 +19,15 @@ import Islam from "../assets/islam.svg";
 import { DATA1, DATA2, CATEGORIES } from "../data/data";
 import LottieView from "lottie-react-native";
 import IslamicStar from "../assets/IslamicStar.svg";
+import Exclamation from "../assets/exclamation.svg";
 import DouaaTypes from "../components/DouaaTypes";
 import SliderDouaa from "../components/SliderDouaa";
+import { useSharedValue } from "react-native-reanimated";
 const db = SQLite.openDatabase("db.db");
 const { width } = Dimensions.get("screen");
+import Toast from "react-native-toast-message";
+import Notification from "../components/Notification";
+
 const SPRING_CONFIG = {
   damping: 80,
   overshootClamping: true,
@@ -34,10 +40,11 @@ const Main = ({ navigation, route }) => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
     dataContext
   );
-  const [douaaIndex, setDouaaIndex] = useState(0);
   const [DATA, setData] = useState(DATA1);
   const [CATEGORIE, setCategorie] = useState("1");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
   const animation = useRef(null);
 
   useEffect(() => {
@@ -90,8 +97,35 @@ const Main = ({ navigation, route }) => {
     animation.current.play(50, 90);
   };
 
+  const InfoView = ({ item }) => {
+    const [toggle, setToggle] = useState(false);
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          setIsVisible(true);
+        }}
+        style={{
+          position: "absolute",
+          top: -13,
+          backgroundColor: "red",
+          padding: 10,
+        }}
+      >
+        <View style={{ alignSelf: "center" }}>
+          <Exclamation height={30} width={30} fill="red" />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
+      <Notification
+        setIsVisible={setIsVisible}
+        isVisible={isVisible}
+        info={DATA[state.index].info}
+      />
       <View
         style={{
           position: "absolute",
@@ -130,6 +164,7 @@ const Main = ({ navigation, route }) => {
       >
         <Islam height={240} width={440} style={{ marginTop: -100 }} />
         <View style={styles.container}>
+          {DATA[state.index].info && <InfoView item={DATA[state.index].info} />}
           <SliderDouaa data={DATA} />
 
           {/* <Allah
@@ -147,7 +182,6 @@ const Main = ({ navigation, route }) => {
             position: "absolute",
             bottom: 10,
             left: width / 2 - 40,
-            zIndex: 1,
           }}
         >
           <LottieView
@@ -158,7 +192,6 @@ const Main = ({ navigation, route }) => {
               position: "absolute",
               left: 3,
               top: 2,
-              zIndex: 4,
             }}
             speed={1.5}
             source={require("../assets/lottie/LikeButton.json")}
