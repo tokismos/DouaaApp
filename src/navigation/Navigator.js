@@ -6,6 +6,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Main from "../screens/Main";
 import Favorites from "../screens/Favorites";
+import TestScreen from "../screens/TestScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ const BottomNavigatorScreens = () => {
       />
       <Tab.Screen
         name="Favorites"
-        component={Favorites}
+        component={TestScreen}
         options={{
           tabBarIcon: ({ focused }) =>
             focused ? (

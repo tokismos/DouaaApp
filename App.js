@@ -7,6 +7,7 @@ import { useFonts } from "expo-font";
 import Toast from "react-native-toast-message";
 
 export default function App() {
+  console.log("heeee", !!global.HermesInternal);
   const [loaded] = useFonts({
     ArabFont: require("./src/assets/fonts/arabFont.ttf"),
     ArabFont2: require("./src/assets/fonts/arabFont2.ttf"),

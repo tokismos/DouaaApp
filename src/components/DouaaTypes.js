@@ -7,9 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import { CATEGORIES } from "../data/data";
-const DouaaTypes = ({ setCategorie, setData }) => {
+
+const DouaaTypes = ({ setCategorie, setData, style }) => {
   return (
-    <View style={{ height: 50 }}>
+    <View style={{ ...style }}>
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal

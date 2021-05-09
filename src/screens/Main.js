@@ -95,14 +95,18 @@ const Main = () => {
 
   const addFav = () => {
     addFavorite(tmp[state.index], CATEGORIE);
+    animation.current.play(40, 40);
   };
 
   const deleteFav = () => {
     console.log("hihihih", DATA[state.index]);
     deleteFavorite(DATA[state.index], CATEGORIE);
+    animation.current.play(40, 40);
   };
 
   const InfoView = ({ item }) => {
+    const [toggle, setToggle] = useState(false);
+
     return (
       <TouchableOpacity
         onPress={() => {
@@ -110,9 +114,9 @@ const Main = () => {
         }}
         style={{
           position: "absolute",
-          top: -25,
-          padding: 20,
-          zIndex: 1,
+          backgroundColor: "red",
+          top: -13,
+          padding: 10,
         }}
       >
         <View style={{ alignSelf: "center" }}>
@@ -245,7 +249,6 @@ const Main = () => {
           <SliderDouaa data={tmp} />
         </View>
         <TouchableOpacity
-          activeOpacity={0.6}
           onPress={() => {
             isFavorite ? deleteFav() : addFav();
           }}
