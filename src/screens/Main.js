@@ -35,13 +35,6 @@ const { width } = Dimensions.get("screen");
 import Toast from "react-native-toast-message";
 import Notification from "../components/Notification";
 
-const SPRING_CONFIG = {
-  damping: 80,
-  overshootClamping: true,
-  restDisplacementThreshold: 0.1,
-  restSpeedThreshold: 0.1,
-  stiffness: 500,
-};
 const Main = () => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
     dataContext
@@ -128,6 +121,8 @@ const Main = () => {
   console.log("OH FUCK IT REREDNER");
   return (
     <>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+
       <Notification
         setIsVisible={setIsVisible}
         isVisible={isVisible}
