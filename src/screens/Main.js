@@ -61,7 +61,7 @@ const Main = ({ navigation, route }) => {
   React.useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "create table if not exists douaae (id integer not null, value text,categorie text);",
+        "create table if not exists douaae (id integer not null, value text,categorie text,info text,numOfRead text);",
         [],
         () => console.log("succeeded"),
         () => console.log("failed")
@@ -112,7 +112,7 @@ const Main = ({ navigation, route }) => {
         }}
       >
         <View style={{ alignSelf: "center" }}>
-          <Exclamation height={30} width={30} fill="red" />
+          <Exclamation height={30} width={30} fill="#082c6c" />
         </View>
       </TouchableOpacity>
     );
@@ -146,6 +146,79 @@ const Main = ({ navigation, route }) => {
           autoPlay
           loop
         />
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 3,
+            transform: [{ scale: 1.5 }, { translateY: 1 }],
+          }}
+          speed={1}
+          source={require("../assets/lottie/moreStar.json")}
+          autoPlay
+          loop
+        />
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 3,
+            transform: [{ scale: 1.5 }, { translateY: 50 }],
+          }}
+          speed={3}
+          source={require("../assets/lottie/moreStar.json")}
+          autoPlay
+          loop
+        />
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 3,
+            transform: [{ scale: 1.5 }, { translateX: 20 }],
+          }}
+          speed={1}
+          source={require("../assets/lottie/moreStar.json")}
+          autoPlay
+          loop
+        />
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 3,
+            transform: [{ scale: 1.5 }, { translateX: 100 }],
+          }}
+          speed={0.5}
+          source={require("../assets/lottie/moreStar.json")}
+          autoPlay
+          loop
+        />
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 3,
+            transform: [{ scale: 1.5 }, { translateX: 70 }],
+          }}
+          speed={0.5}
+          source={require("../assets/lottie/moreStar.json")}
+          autoPlay
+          loop
+        />
+        <LottieView
+          style={{
+            position: "absolute",
+            width: "100%",
+            zIndex: 3,
+            transform: [{ scale: 1.5 }, { translateY: 70 }],
+          }}
+          speed={0.5}
+          source={require("../assets/lottie/moreStar.json")}
+          autoPlay
+          loop
+        />
+
         <Image
           source={require("../assets/sky2.jpg")}
           style={{ height: "70%", width: "100%", opacity: 0.3 }}
@@ -165,13 +238,6 @@ const Main = ({ navigation, route }) => {
         <View style={styles.container}>
           {DATA[state.index].info && <InfoView item={DATA[state.index].info} />}
           <SliderDouaa data={DATA} />
-
-          {/* <Allah
-            height={300}
-            width={300}
-            fill="#082c6c"
-            style={{ position: "absolute", bottom: -10 }}
-          /> */}
         </View>
         <TouchableOpacity
           onPress={() => {

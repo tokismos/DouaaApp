@@ -36,8 +36,8 @@ const addFavorite = (dispatch) => (data, categorie) => {
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "insert into douaae  values(?,?,?) ",
-        [data.id, data.value, categorie],
+        "insert into douaae  values(?,?,?,?,?) ",
+        [data.id, data.value, categorie, data.info, data.numOfRead],
         (_, resultSet) => console.log("Added successfuly"),
         (e, s) => console.log("AN eRROR:", s)
       );
@@ -83,5 +83,5 @@ const setIndex = (dispatch) => (index) => {
 export const { Provider, Context } = createDataContext(
   dataReducer,
   { addFavorite, syncFavorites, deleteFavorite, setIndex },
-  { FavoritesData: "", index: "5" }
+  { FavoritesData: "", index: "0" }
 );

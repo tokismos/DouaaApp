@@ -14,7 +14,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-const InfoView = ({ toggleInfo, setToggleInfo }) => {
+const InfoView = ({ toggleInfo, setToggleInfo, info }) => {
   return (
     <>
       <View>
@@ -32,8 +32,7 @@ const InfoView = ({ toggleInfo, setToggleInfo }) => {
               },
             ]}
           >
-            .من قالها حين يصبح أجير من الجن حتىيمسى ومن قالها حين يمسى أجير من
-            الجن حتى يصبح
+            {info}
           </Text>
         )}
       </View>
