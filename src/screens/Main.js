@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Button,
   StyleSheet,
@@ -35,8 +42,7 @@ const SPRING_CONFIG = {
   restSpeedThreshold: 0.1,
   stiffness: 500,
 };
-let from = false;
-const Main = ({ navigation, route }) => {
+const Main = () => {
   const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
     dataContext
   );
@@ -47,6 +53,7 @@ const Main = ({ navigation, route }) => {
 
   const animation = useRef(null);
 
+  const tmp = useMemo(() => DATA, [DATA]);
   useEffect(() => {
     console.log("this is type:", CATEGORIE);
     switch (CATEGORIE) {
@@ -87,19 +94,15 @@ const Main = ({ navigation, route }) => {
   }, [state.FavoritesData, state.index, isFavorite, CATEGORIE]);
 
   const addFav = () => {
-    addFavorite(DATA[state.index], CATEGORIE);
-    animation.current.play(10, 40);
+    addFavorite(tmp[state.index], CATEGORIE);
   };
 
   const deleteFav = () => {
     console.log("hihihih", DATA[state.index]);
     deleteFavorite(DATA[state.index], CATEGORIE);
-    animation.current.play(50, 90);
   };
 
   const InfoView = ({ item }) => {
-    const [toggle, setToggle] = useState(false);
-
     return (
       <TouchableOpacity
         onPress={() => {
@@ -107,8 +110,9 @@ const Main = ({ navigation, route }) => {
         }}
         style={{
           position: "absolute",
-          top: -13,
-          padding: 10,
+          top: -25,
+          padding: 20,
+          zIndex: 1,
         }}
       >
         <View style={{ alignSelf: "center" }}>
@@ -117,7 +121,7 @@ const Main = ({ navigation, route }) => {
       </TouchableOpacity>
     );
   };
-
+  console.log("OH FUCK IT REREDNER");
   return (
     <>
       <Notification
@@ -146,14 +150,15 @@ const Main = ({ navigation, route }) => {
           autoPlay
           loop
         />
+
         <LottieView
           style={{
             position: "absolute",
             width: "100%",
             zIndex: 3,
-            transform: [{ scale: 1.5 }, { translateY: 1 }],
+            transform: [{ scale: 1.2 }, { translateY: 30 }],
           }}
-          speed={1}
+          speed={0.5}
           source={require("../assets/lottie/moreStar.json")}
           autoPlay
           loop
@@ -237,9 +242,10 @@ const Main = ({ navigation, route }) => {
         <Islam height={240} width={440} style={{ marginTop: -100 }} />
         <View style={styles.container}>
           {DATA[state.index].info && <InfoView item={DATA[state.index].info} />}
-          <SliderDouaa data={DATA} />
+          <SliderDouaa data={tmp} />
         </View>
         <TouchableOpacity
+          activeOpacity={0.6}
           onPress={() => {
             isFavorite ? deleteFav() : addFav();
           }}
