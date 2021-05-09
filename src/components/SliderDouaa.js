@@ -6,12 +6,14 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  ToastAndroid,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { Context as dataContext } from "../context/dataContext";
 import Flower from "../assets/flower.svg";
 import { DATA1 as data } from "../data/data";
 import Exclamation from "../assets/exclamation.svg";
+import Toast from "react-native-toast-message";
 
 const { width } = Dimensions.get("screen");
 
@@ -26,12 +28,16 @@ const SliderDouaa = React.memo(
               left: 0,
               padding: 10,
               top: 0,
-              backgroundColor: "yellow",
             }}
           >
             <TouchableOpacity
               onPress={() => {
-                setInfoVisible(!infoVisible);
+                console.log("thisiss item", item);
+                ToastAndroid.showWithGravity(
+                  item.info,
+                  ToastAndroid.LONG,
+                  ToastAndroid.TOP
+                );
               }}
               activeOpacity={0.9}
               style={{}}
@@ -49,8 +55,15 @@ const SliderDouaa = React.memo(
       return (
         <View style={styles.cardContainer}>
           <ScrollView contentContainerStyle={styles.scrollContentContainer}>
-            {item.info && <InfoView />}
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
+            {item.info && <InfoView item={item} />}
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 10,
+                marginBottom: -15,
+              }}
+            >
               <Text style={{ position: "absolute", top: 15 }}>
                 {item.numOfRead}
               </Text>
@@ -101,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: 10,
     borderRadius: 20,
     borderWidth: 1,
   },

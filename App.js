@@ -19,6 +19,8 @@ export default function App() {
 
   return (
     <>
+      <Toast ref={(ref) => Toast.setRef(ref)} />
+
       <DataProvider>
         <View style={{ flex: 1 }}>
           <Navigator />

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { CATEGORIES } from "../data/data";
 
-const DouaaTypes = ({ setCategorie, setData, style }) => {
+const DouaaTypes = ({ setCategorie, setData, style, categorie }) => {
   return (
     <View style={{ ...style }}>
       <FlatList
@@ -20,7 +20,8 @@ const DouaaTypes = ({ setCategorie, setData, style }) => {
           return (
             <TouchableOpacity
               style={{
-                backgroundColor: "white",
+                backgroundColor:
+                  categorie == item.categorie ? "yellow" : "white",
                 margin: 10,
                 padding: 10,
                 alignItems: "center",
