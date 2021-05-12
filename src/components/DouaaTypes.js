@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -6,11 +6,9 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import { Context as dataContext } from "../context/dataContext";
 import { CATEGORIES } from "../data/data";
 
 const DouaaTypes = ({ setCategorie, style, categorie }) => {
-  const { setIndex } = useContext(dataContext);
   return (
     <View style={{ ...style }}>
       <FlatList

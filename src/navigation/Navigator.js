@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Favorites from "../screens/Favorites";
-import TestScreen from "../screens/TestScreen";
+import MainScreen from "../screens/MainScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +20,7 @@ const BottomNavigatorScreens = () => {
     >
       <Tab.Screen
         name="Home"
-        component={TestScreen}
+        component={MainScreen}
         options={{
           tabBarIcon: ({ focused }) =>
             focused ? (

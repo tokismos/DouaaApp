@@ -40,7 +40,7 @@ const TestScreen = () => {
 
   const ad = async () => {
     await AdMobInterstitial.setAdUnitID(
-      "ca-app-pub-3940256099942544/1033173712"
+      "ca-app-pub-7065023206422574/4744158002"
     );
     await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
     AdMobInterstitial.getIsReadyAsync().then(() => {
@@ -55,6 +55,8 @@ const TestScreen = () => {
     }
   }, [state.index]);
   // when you change the categorie by pressing the bottom buttons you set the Data that you will show in slider
+
+  // When you add a categorie you hsould add it here and in the data file at the bottom
   useEffect(() => {
     console.log("this is type:", CATEGORIE);
     switch (CATEGORIE) {

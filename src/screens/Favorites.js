@@ -1,18 +1,16 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 
 import { Context as dataContext } from "../context/dataContext";
 import { AdMobBanner } from "expo-ads-admob";
 
 import Accordeon from "../components/Accordeon";
-import { CATEGORIES, DATA1 } from "../data/data";
+import { CATEGORIES } from "../data/data";
 const Favorites = () => {
   const {
     state,
     state: { FavoritesData },
   } = React.useContext(dataContext);
-
-  useEffect(() => {}, [state]);
 
   const AccordeonFavoriteItem = ({ categorie, title }) => {
     let array = FavoritesData.filter((item) => item.categorie == categorie);
@@ -69,14 +67,14 @@ const Favorites = () => {
             }}
           >
             <Text style={{ color: "white" }}>
-              There's no categories, pls Add one{" "}
+              المرجو الإضافة إلى قائمة الإعجابات.
             </Text>
           </View>
         )}
       </View>
       <AdMobBanner
         bannerSize="fullBanner"
-        adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+        adUnitID="ca-app-pub-7065023206422574/9429793880"
         servePersonalizedAds // true or false
       />
     </>

@@ -855,9 +855,9 @@ export const DATA8 = [
 ];
 
 export const CATEGORIES = [
-  { categorie: "1", name: "أدعية الصباح ", data: DATA1 },
-  { categorie: "2", name: "أدعية المساء", data: DATA2 },
-  { categorie: "3", name: " أدعية الفرج و ازالة الهم و الغم", data: DATA3 },
+  { categorie: "1", name: "أذكار  الصباح " },
+  { categorie: "2", name: "أذكار  المساء" },
+  { categorie: "3", name: " أدعية الفرج و ازالة الهم و الغم" },
   { categorie: "4", name: "أذكار بعد السلام من الصلاة المفروضة" },
   { categorie: "5", name: "تسابيح" },
   { categorie: "6", name: "أذكار النوم والأحلام" },

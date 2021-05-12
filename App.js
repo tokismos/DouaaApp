@@ -1,17 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import Navigator from "./src/navigation/Navigator";
 import { Provider as DataProvider } from "./src/context/dataContext";
 import { useFonts } from "expo-font";
 import Toast from "react-native-toast-message";
-import { AdMobInterstitial } from "expo-ads-admob";
 import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   const [loaded] = useFonts({
-    ArabFont: require("./src/assets/fonts/arabFont.ttf"),
     ArabFont2: require("./src/assets/fonts/arabFont2.ttf"),
   });
+
+  if (!loaded) {
+    return (
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="white" />
+      </View>
+    );
+  }
 
   return (
     <>

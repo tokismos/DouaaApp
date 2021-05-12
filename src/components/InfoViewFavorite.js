@@ -1,20 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Dimensions,
-  LayoutAnimation,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-const InfoView = ({ toggleInfo, setToggleInfo, info }) => {
+const InfoView = ({ toggleInfo, info }) => {
   return (
     <>
       <View>
@@ -27,7 +14,7 @@ const InfoView = ({ toggleInfo, setToggleInfo, info }) => {
                 padding: 3,
                 margin: 5,
                 borderWidth: 0.3,
-                borderColor: "gray",
+                borderColor: "black",
                 borderRadius: 5,
               },
             ]}

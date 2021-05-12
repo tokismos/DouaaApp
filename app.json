@@ -19,7 +19,7 @@
     },
     "android": {
       "config": {
-        "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
+        "googleMobileAdsAppId": "ca-app-pub-7065023206422574~5943767024"
       },
       "package": "com.tokismos.douaaapp",
       "versionCode": 1,

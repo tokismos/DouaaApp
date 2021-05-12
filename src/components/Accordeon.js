@@ -1,20 +1,12 @@
 import { setStatusBarBackgroundColor } from "expo-status-bar";
-import React, {
-  useEffect,
-  useState,
-  useRef,
-  createRef,
-  useContext,
-} from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import {
   LayoutAnimation,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   UIManager,
   View,
-  Button,
 } from "react-native";
 import { Context as dataContext } from "../context/dataContext";
 import LottieView from "lottie-react-native";
@@ -22,13 +14,11 @@ import LottieView from "lottie-react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from "react-native-reanimated";
 import Arrow from "../assets/arrow.svg";
 import Close from "../assets/close.svg";
 import Flower from "../assets/flower.svg";
-import Exclamation from "../assets/exclamation.svg";
 import InfoView from "./InfoViewFavorite";
 
 const DouaaCard = ({ item }) => {
