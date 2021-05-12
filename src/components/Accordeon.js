@@ -128,7 +128,7 @@ const DouaaCard = ({ item }) => {
 };
 
 const Accordeon = ({ data, title }) => {
-  const [toggled, setToggled] = useState(1);
+  const [toggled, setToggled] = useState(0);
   useEffect(() => {
     if (Platform.OS === "android") {
       UIManager.setLayoutAnimationEnabledExperimental(true);

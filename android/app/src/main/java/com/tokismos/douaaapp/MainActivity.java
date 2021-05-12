@@ -1,4 +1,4 @@
-package com.yourcompany.yourappname;
+package com.tokismos.douaaapp;
 import android.content.res.Configuration;
 import android.content.Intent;
 

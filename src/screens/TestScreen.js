@@ -1,50 +1,59 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
-  Button,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
-  ImageBackground,
   Image,
   Dimensions,
-  FlatList,
-  ToastAndroid,
 } from "react-native";
-import Toast from "react-native-toast-message";
 
 import { Context as dataContext } from "../context/dataContext";
 import * as SQLite from "expo-sqlite";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { DATA1, DATA2, CATEGORIES } from "../data/data";
+import {
+  DATA1,
+  DATA2,
+  DATA3,
+  DATA4,
+  DATA5,
+  DATA6,
+  DATA7,
+  DATA8,
+} from "../data/data";
 import LottieView from "lottie-react-native";
 import IslamicStar from "../assets/IslamicStar.svg";
-import Exclamation from "../assets/exclamation.svg";
 import DouaaTypes from "../components/DouaaTypes";
 import SliderDouaa from "../components/SliderDouaa";
 const db = SQLite.openDatabase("db.db");
-import Islam from "../assets/islam.svg";
-import Notification from "../components/Notification";
+import { AdMobInterstitial } from "expo-ads-admob";
 const { width } = Dimensions.get("screen");
+
 const TestScreen = () => {
-  const { state, addFavorite, syncFavorites, deleteFavorite } = useContext(
-    dataContext
-  );
+  const { state, addFavorite, syncFavorites, deleteFavorite, setIndex } =
+    useContext(dataContext);
   const [DATA, setData] = useState(DATA1);
   const [CATEGORIE, setCategorie] = useState("1");
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [infoVisible, setInfoVisible] = useState(false);
   const animation = useRef(null);
 
+  const ad = async () => {
+    await AdMobInterstitial.setAdUnitID(
+      "ca-app-pub-3940256099942544/1033173712"
+    );
+    await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true });
+    AdMobInterstitial.getIsReadyAsync().then(() => {
+      AdMobInterstitial.showAdAsync().catch((e) => console.log(e));
+    });
+  };
+  useEffect(() => {
+    if (state.index % 7 == 0) {
+      const showORNot = Math.round(Math.random());
+      console.log(showORNot);
+      showORNot ? ad() : null;
+    }
+  }, [state.index]);
   // when you change the categorie by pressing the bottom buttons you set the Data that you will show in slider
   useEffect(() => {
     console.log("this is type:", CATEGORIE);
@@ -53,6 +62,18 @@ const TestScreen = () => {
         return setData(DATA1);
       case "2":
         return setData(DATA2);
+      case "3":
+        return setData(DATA3);
+      case "4":
+        return setData(DATA4);
+      case "5":
+        return setData(DATA5);
+      case "6":
+        return setData(DATA6);
+      case "7":
+        return setData(DATA7);
+      case "8":
+        return setData(DATA8);
     }
   }, [CATEGORIE]);
 
@@ -84,7 +105,7 @@ const TestScreen = () => {
         animation.current.play(0, 0);
       }
     }
-  }, [state.FavoritesData, state.index, isFavorite, CATEGORIE]);
+  }, [state.FavoritesData, state.index, CATEGORIE]);
 
   // add the favorite to the DB and the favoritesData context
   const addFav = () => {
@@ -100,11 +121,6 @@ const TestScreen = () => {
 
   return (
     <>
-      <Notification
-        setIsVisible={setIsVisible}
-        isVisible={isVisible}
-        info={DATA[state.index].info}
-      />
       <LottieView
         style={{
           position: "absolute",
@@ -116,6 +132,7 @@ const TestScreen = () => {
         autoPlay
         loop
       />
+
       <LottieView
         style={{
           position: "absolute",
@@ -162,22 +179,6 @@ const TestScreen = () => {
               }}
             />
             <View style={styles.cardContainer}>
-              {infoVisible && (
-                <View
-                  style={{
-                    backgroundColor: "green",
-                    position: "absolute",
-                    zIndex: 1,
-                    top: -30,
-                  }}
-                >
-                  <Text>
-                    fdsfdsfds
-                    sadsadnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnsdksandlksandsakdsaknfdsfds
-                  </Text>
-                </View>
-              )}
-
               <SliderDouaa
                 data={DATA}
                 setInfoVisible={setInfoVisible}
@@ -231,11 +232,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   cardContainer: {
-    marginLeft: 10,
     backgroundColor: "#FFD700",
-    borderRightWidth: 3,
-    borderLeftWidth: 3,
-    borderRightColor: "white",
     height: "65%",
     alignSelf: "flex-end",
     borderRadius: 20,

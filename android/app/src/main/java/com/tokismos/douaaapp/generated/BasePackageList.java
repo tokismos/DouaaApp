@@ -1,4 +1,4 @@
-package com.yourcompany.yourappname.generated;
+package com.tokismos.douaaapp.generated;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.unimodules.core.interfaces.Package;
 public class BasePackageList {
   public List<Package> getPackageList() {
     return Arrays.<Package>asList(
+        new expo.modules.ads.admob.AdMobPackage(),
         new expo.modules.application.ApplicationPackage(),
         new expo.modules.constants.ConstantsPackage(),
         new expo.modules.errorrecovery.ErrorRecoveryPackage(),

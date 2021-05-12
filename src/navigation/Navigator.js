@@ -1,12 +1,10 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Main from "../screens/Main";
 import Favorites from "../screens/Favorites";
-import Notificatione from "../components/Notification";
 import TestScreen from "../screens/TestScreen";
 
 const Tab = createBottomTabNavigator();
