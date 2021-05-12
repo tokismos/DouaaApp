@@ -12,6 +12,7 @@
     "@react-native-firebase/app": "^11.4.1",
     "@react-navigation/bottom-tabs": "^5.11.10",
     "@react-navigation/native": "^5.9.4",
+    "eas-cli": "0.14.1",
     "expo": "^41.0.1",
     "expo-ads-admob": "~10.0.4",
     "expo-file-system": "~11.0.2",
