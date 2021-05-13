@@ -1,4 +1,5 @@
 package com.tokismos.douaaapp;
+
 import android.content.res.Configuration;
 import android.content.Intent;
 
@@ -29,7 +30,7 @@ public class MainActivity extends ReactActivity {
     super.onCreate(null);
     // SplashScreen.show(...) has to be called after super.onCreate(...)
     // Below line is handled by '@expo/configure-splash-screen' command and it's discouraged to modify it manually
-    SplashScreen.show(this, SplashScreenImageResizeMode.CONTAIN, ReactRootView.class, false);
+    SplashScreen.show(this, SplashScreenImageResizeMode.COVER, ReactRootView.class, false);
   }
 
 
