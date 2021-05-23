@@ -2,7 +2,7 @@
   "expo": {
     "name": "Douaa",
     "slug": "Douaa",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -22,7 +22,7 @@
         "googleMobileAdsAppId": "ca-app-pub-7065023206422574~5943767024"
       },
       "package": "com.tokismos.douaaapp",
-      "versionCode": 1,
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

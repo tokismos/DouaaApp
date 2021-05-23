@@ -72,11 +72,13 @@ const Favorites = () => {
           </View>
         )}
       </View>
-      <AdMobBanner
-        bannerSize="fullBanner"
-        adUnitID="ca-app-pub-7065023206422574/9429793880"
-        servePersonalizedAds // true or false
-      />
+      <View style={{ position: "absolute", bottom: 0 }}>
+        <AdMobBanner
+          bannerSize="fullBanner"
+          adUnitID="ca-app-pub-7065023206422574/9429793880"
+          servePersonalizedAds // true or false
+        />
+      </View>
     </>
   );
 };

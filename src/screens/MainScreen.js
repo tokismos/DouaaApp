@@ -48,7 +48,7 @@ const TestScreen = () => {
     });
   };
   useEffect(() => {
-    if (state.index % 7 == 0) {
+    if (state.index % 5 == 0) {
       const showORNot = Math.round(Math.random());
       console.log(showORNot);
       showORNot ? ad() : null;
